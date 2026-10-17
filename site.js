@@ -11,6 +11,62 @@
   const richTitle = (before = '', emphasis = '', after = '') => `${esc(before)}${before && emphasis ? '<br>' : ''}<em>${esc(emphasis)}</em>${after ? ' ' + esc(after) : ''}`;
   const imageUrl = value => safeUrl(value) || 'assets/profile-photo.png';
   const lineBreaks = value => esc(value || '').replace(/\n/g, '<br>');
+  const MAX_FEATURED_PROJECTS = 5;
+const isAllProjectsPage = document.body.dataset.page === 'all-projects';
+
+function normaliseMedia(item) {
+  const legacy = [];
+  if (item.image) legacy.push({ type: 'image', src: item.image });
+  if (item.video) legacy.push({ type: 'video', src: item.video });
+
+  const gallery = Array.isArray(item.media) ? item.media : [];
+  const seen = new Set();
+
+  return [...legacy, ...gallery].filter(entry => {
+    const src = safeUrl(entry?.src || '');
+    const type = entry?.type === 'video' ? 'video' : 'image';
+    if (!src || seen.has(src)) return false;
+    seen.add(src);
+    entry.type = type;
+    entry.src = src;
+    return true;
+  });
+}
+
+function modelButton(item) {
+  const src = safeUrl(item.model3d || '');
+  if (!src) return '';
+  return `<button class="view-3d-button" type="button" data-model-src="${esc(src)}" data-model-title="${esc(item.title || item.role || '3D model')}">View 3D <b>↗</b></button>`;
+}
+
+function mediaCarousel(item, index, context) {
+  const media = normaliseMedia(item);
+  if (!media.length) return '';
+
+  const isProject = context === 'project';
+  const rootClass = isProject
+    ? 'project-art media-art media-carousel'
+    : 'experience-media-frame media-carousel';
+
+  const slides = media.map((entry, mediaIndex) => {
+    const asset = entry.type === 'video'
+      ? `<video src="${esc(entry.src)}" muted playsinline loop preload="metadata" data-autoplay-in-view></video>`
+      : `<img src="${esc(imageUrl(entry.src))}" alt="${esc(item.title || item.role || 'Portfolio media')} ${mediaIndex + 1}">`;
+    return `<div class="media-slide ${mediaIndex === 0 ? 'is-active' : ''}" data-slide aria-hidden="${mediaIndex === 0 ? 'false' : 'true'}">${asset}</div>`;
+  }).join('');
+
+  const controls = media.length > 1 ? `
+    <button class="carousel-arrow carousel-prev" type="button" data-carousel-step="-1" aria-label="Previous image or video">←</button>
+    <button class="carousel-arrow carousel-next" type="button" data-carousel-step="1" aria-label="Next image or video">→</button>
+    <div class="carousel-dots" aria-label="Media slides">${media.map((_, dotIndex) => `<button type="button" data-carousel-go="${dotIndex}" aria-label="Show media ${dotIndex + 1}" class="${dotIndex === 0 ? 'is-active' : ''}"></button>`).join('')}</div>` : '';
+
+  return `<div class="${rootClass}" data-carousel data-carousel-index="0">
+    <div class="media-slides">${slides}</div>
+    ${isProject ? `<span>${esc(item.area || 'PROJECT')}</span>` : ''}
+    ${controls}
+    ${modelButton(item)}
+  </div>`;
+}
 
   async function getContent() {
     try {
