@@ -8,7 +8,7 @@
     "footerLine": "ENGINEERING WITH INTENT."
   },
   "hero": {
-    "badge": "MECHANICAL ENGINEERING · APPLIED AI . ROBOTICS ",
+    "badge": "Mechanical Engineering . Robotics . Applied AI ",
     "titleBefore": "I build mechanical foundations for",
     "titleEmphasis": "Robotics",
     "titleAfter": "& Autonomous Systems.",
@@ -244,7 +244,11 @@
       },
       {
         "label": "GitHub",
-        "url": "https://emma-elias.github.io/portfolio"
+        "url": "https://emma-elias.github.io"
+      },
+      {
+        "label": "Instagram",
+        "url": "https://www.instagram.com/emma_elias1"
       }
     ]
   }
