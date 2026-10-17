@@ -411,7 +411,11 @@ document.addEventListener('click', event => {
 const modelModal = byId('modelModal');
 modelModal?.querySelector('.model-close').addEventListener('click', closeSTLViewer);
 modelModal?.querySelector('.model-overlay').addEventListener('click', closeSTLViewer);    const modal = byId('projectModal'); const close = () => { modal?.classList.remove('open'); modal?.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; };
-    modal?.querySelector('.modal-close').addEventListener('click', close); modal?.querySelector('.modal-overlay').addEventListener('click', close); document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  close();
+  closeSTLViewer();
+}); 
   }
 
   getContent().then(data => { render(data); wireInteractions(data); });
