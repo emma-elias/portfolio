@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "site": {
     "logoName": "Elias",
-    "logoMark": ".",
+    "logoMark": "O",
     "browserTitle": "Elias | Robotics & Autonomous Systems",
     "description": "Mechanical Engineering student portfolio focused on Robotics and Autonomous Systems.",
     "footerLine": "ENGINEERING WITH INTENT."
@@ -108,7 +108,17 @@
         "video": "",
         "repoUrl": "",
         "demoUrl": "",
-        "model3d": "uploads/1792271543984-1-01_barrel_body.stl"
+        "model3d": "",
+        "media": [
+          {
+            "type": "image",
+            "src": "uploads/1792272319999-1-rdt_20261008_0958212293010710358788075.jpg"
+          },
+          {
+            "type": "image",
+            "src": "uploads/1792272332691-2-rdt_20260929_1149476187897295446088680.jpg"
+          }
+        ]
       },
       {
         "id": "kinetigrip",
