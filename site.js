@@ -394,8 +394,23 @@ byId('experienceList').innerHTML = (ex.items || []).length ? (ex.items || []).ma
     const menuButton = document.querySelector('.menu-button'), menu = document.querySelector('.mobile-menu');
     menuButton?.addEventListener('click', () => { const open = menu.classList.toggle('open'); menuButton.setAttribute('aria-expanded', String(open)); });
     menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.classList.remove('open'); menuButton?.setAttribute('aria-expanded','false'); }));
-    document.addEventListener('click', event => { const trigger = event.target.closest('[data-project-id]'); if (trigger) { const project = (data.projects?.items || []).find((x,i) => (x.id || String(i)) === trigger.dataset.projectId); if (project) showProject(project); } });
-    const modal = byId('projectModal'); const close = () => { modal?.classList.remove('open'); modal?.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; };
+document.addEventListener('click', event => {
+  const trigger = event.target.closest('[data-project-id]');
+  if (trigger) {
+    const project = (data.projects?.items || []).find((x, i) => (x.id || String(i)) === trigger.dataset.projectId);
+    if (project) showProject(project);
+  }
+
+  const modelTrigger = event.target.closest('[data-model-src]');
+  if (modelTrigger) {
+    event.preventDefault();
+    openSTLViewer(modelTrigger.dataset.modelSrc, modelTrigger.dataset.modelTitle);
+  }
+});
+
+const modelModal = byId('modelModal');
+modelModal?.querySelector('.model-close').addEventListener('click', closeSTLViewer);
+modelModal?.querySelector('.model-overlay').addEventListener('click', closeSTLViewer);    const modal = byId('projectModal'); const close = () => { modal?.classList.remove('open'); modal?.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; };
     modal?.querySelector('.modal-close').addEventListener('click', close); modal?.querySelector('.modal-overlay').addEventListener('click', close); document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
 
