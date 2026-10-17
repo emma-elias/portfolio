@@ -210,10 +210,19 @@ function renderProjects(projects) {
     byId('projectsHeading').innerHTML = richTitle(p.headingBefore, p.headingEmphasis); setText('projectsLead', p.lead); renderProjects(p.items || []);
 
     byId('experienceHeading').innerHTML = richTitle(ex.headingBefore, ex.headingEmphasis); setText('experienceLead', ex.lead);
-    byId('experienceList').innerHTML = (ex.items || []).length ? (ex.items || []).map(item => {
-      const media = item.video || item.image; const visual = item.video ? `<video class="experience-media" src="${esc(safeUrl(item.video))}" muted playsinline preload="metadata"></video>` : item.image ? `<img class="experience-media" src="${esc(imageUrl(item.image))}" alt="${esc(item.role)}">` : '';
-      return `<article class="experience-card ${media ? 'has-media' : ''}">${visual}<div class="experience-content"><small>${esc(item.date || '')} · ${esc(item.organisation || '')}</small><h3>${esc(item.role)}</h3><p>${esc(item.summary)}</p><div class="experience-bullets">${(item.bullets || []).filter(Boolean).map(x => `<span>${esc(x)}</span>`).join('')}</div></div></article>`;
-    }).join('') : '<p class="empty-state">Add experience in the CMS.</p>';
+byId('experienceList').innerHTML = (ex.items || []).length ? (ex.items || []).map((item, index) => {
+  const hasMedia = normaliseMedia(item).length > 0;
+  const gallery = mediaCarousel(item, index, 'experience');
+  return `<article class="experience-card ${hasMedia ? 'has-media' : ''}">
+    ${gallery}
+    <div class="experience-content">
+      <small>${esc(item.date || '')} · ${esc(item.organisation || '')}</small>
+      <h3>${esc(item.role)}</h3>
+      <p>${esc(item.summary)}</p>
+      <div class="experience-bullets">${(item.bullets || []).filter(Boolean).map(x => `<span>${esc(x)}</span>`).join('')}</div>
+    </div>
+  </article>`;
+}).join('') : '<p class="empty-state">Add experience in the CMS.</p>';Add experience in the CMS.</p>';
 
     byId('directionHeading').innerHTML = richTitle(d.headingBefore, d.headingEmphasis); setText('directionLead', d.lead); byId('directionList').innerHTML = (d.items || []).map((item,i) => `<article class="reveal"><span>${String(i+1).padStart(2,'0')}</span><div><small>PRINCIPLE</small><h3>${esc(item.title)}</h3><p>${esc(item.summary)}</p></div></article>`).join('');
     byId('proofHeading').innerHTML = richTitle(pr.headingBefore, pr.headingEmphasis); setText('proofLead', pr.lead); const cv = byId('cvButton'); cv.textContent = pr.cvLabel || 'Download CV'; cv.href = safeUrl(pr.cvUrl) || '#';
