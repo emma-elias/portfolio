@@ -187,6 +187,159 @@ function renderProjects(projects) {
     content.innerHTML = `${media}<p class="eyebrow">${esc(project.status || 'PROJECT')} · ${esc(project.area || 'ENGINEERING')}</p><h2>${esc(project.title)}</h2><div class="brief-grid"><div><h3>Project summary</h3><p>${esc(project.summary)}</p></div><div><h3>Challenge</h3><p>${esc(project.challenge || 'Add the challenge in the CMS.')}</p></div><div><h3>Approach</h3><p>${esc(project.approach || 'Add the approach in the CMS.')}</p></div><div><h3>Evidence / outcome</h3><p>${esc(project.outcome || 'Add only real tests, outcomes, and limitations in the CMS.')}</p></div><div><h3>Tools / skills</h3><ul>${tags}</ul></div></div>${links ? `<div class="modal-actions">${links}</div>` : ''}<p class="modal-footnote">Keep this page honest: use real media, source links, constraints, results, and limitations.</p>`;
     modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
   }
+let carouselObserver;
+let carouselEventsBound = false;
+let stopSTLViewer = () => {};
+
+function syncCarouselVideo(carousel) {
+  const activeSlide = carousel.querySelector('.media-slide.is-active');
+  carousel.querySelectorAll('video[data-autoplay-in-view]').forEach(video => {
+    const shouldPlay = carousel.dataset.visible === 'true' && video.closest('.media-slide') === activeSlide;
+    if (shouldPlay) video.play().catch(() => {});
+    else video.pause();
+  });
+}
+
+function showCarouselSlide(carousel, requestedIndex) {
+  const slides = [...carousel.querySelectorAll('[data-slide]')];
+  if (!slides.length) return;
+  const index = (requestedIndex + slides.length) % slides.length;
+  carousel.dataset.carouselIndex = String(index);
+
+  slides.forEach((slide, slideIndex) => {
+    const active = slideIndex === index;
+    slide.classList.toggle('is-active', active);
+    slide.setAttribute('aria-hidden', String(!active));
+  });
+  carousel.querySelectorAll('[data-carousel-go]').forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === index));
+  syncCarouselVideo(carousel);
+}
+
+function initialiseMediaFeatures() {
+  if (!carouselObserver) {
+    carouselObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        entry.target.dataset.visible = entry.isIntersecting ? 'true' : 'false';
+        syncCarouselVideo(entry.target);
+      });
+    }, { threshold: 0.55 });
+  }
+
+  document.querySelectorAll('[data-carousel]').forEach(carousel => {
+    if (carousel.dataset.initialised) return;
+    carousel.dataset.initialised = 'true';
+    carousel.dataset.visible = 'false';
+    carouselObserver.observe(carousel);
+
+    const slides = carousel.querySelectorAll('[data-slide]');
+    if (slides.length > 1) {
+      window.setInterval(() => {
+        const current = Number(carousel.dataset.carouselIndex || 0);
+        showCarouselSlide(carousel, current + 1);
+      }, 5000);
+    }
+  });
+
+  if (!carouselEventsBound) {
+    carouselEventsBound = true;
+    document.addEventListener('click', event => {
+      const stepButton = event.target.closest('[data-carousel-step]');
+      const dotButton = event.target.closest('[data-carousel-go]');
+      const button = stepButton || dotButton;
+      if (!button) return;
+      const carousel = button.closest('[data-carousel]');
+      if (!carousel) return;
+      const current = Number(carousel.dataset.carouselIndex || 0);
+      const target = stepButton ? current + Number(stepButton.dataset.carouselStep) : Number(dotButton.dataset.carouselGo);
+      showCarouselSlide(carousel, target);
+    });
+  }
+}
+
+function closeSTLViewer() {
+  stopSTLViewer();
+  stopSTLViewer = () => {};
+  const modal = byId('modelModal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+async function openSTLViewer(modelUrl, title) {
+  const modal = byId('modelModal');
+  const stage = byId('stlStage');
+  if (!modal || !stage) return;
+
+  closeSTLViewer();
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  byId('modelTitle').textContent = title || '3D model';
+  stage.innerHTML = '<p>Loading 3D model…</p>';
+
+  try {
+    const [THREE, loaderModule] = await Promise.all([
+      import('https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js'),
+      import('https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/STLLoader.js')
+    ]);
+    const { STLLoader } = loaderModule;
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    stage.replaceChildren(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 2000);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x26314b, 2.3));
+    const key = new THREE.DirectionalLight(0xffffff, 2.2);
+    key.position.set(3, 5, 4);
+    scene.add(key);
+
+    const resize = () => {
+      const width = stage.clientWidth || 640;
+      const height = stage.clientHeight || 440;
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
+    resize();
+
+    const loader = new STLLoader();
+    loader.load(modelUrl, geometry => {
+      geometry.center();
+      geometry.computeBoundingSphere();
+      const radius = Math.max(geometry.boundingSphere?.radius || 1, 0.01);
+      const material = new THREE.MeshStandardMaterial({ color: 0x2953d6, metalness: 0.2, roughness: 0.38 });
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+      camera.position.set(radius * 2.6, radius * 1.8, radius * 2.6);
+      camera.lookAt(0, 0, 0);
+
+      let frame;
+      const animate = () => {
+        frame = requestAnimationFrame(animate);
+        mesh.rotation.y += 0.006;
+        renderer.render(scene, camera);
+      };
+      animate();
+
+      window.addEventListener('resize', resize);
+      stopSTLViewer = () => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener('resize', resize);
+        geometry.dispose();
+        material.dispose();
+        renderer.dispose();
+        stage.replaceChildren();
+      };
+    }, undefined, () => {
+      stage.innerHTML = '<p>This STL file could not be loaded. Confirm that it was published to the uploads folder.</p>';
+    });
+  } catch (error) {
+    console.error(error);
+    stage.innerHTML = '<p>The 3D viewer could not load. Check your connection and try again.</p>';
+  }
+      }
 
   function render(data) {
     const s = data.site || {}, h = data.hero || {}, st = data.story || {}, f = data.focus || {}, p = data.projects || {}, ex = data.experience || {}, d = data.direction || {}, pr = data.proof || {}, c = data.contact || {};
