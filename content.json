@@ -104,7 +104,7 @@
         "challenge": "Build a small rover architecture that connects mobility, sensing, and a clear inspection task.",
         "approach": "Start with constraints, make the drive and sensing interfaces testable, then log failures and iterate.",
         "outcome": "Replace this with only measured results, test conditions, and evidence once the project is built.",
-        "image": "",
+        "image": "uploads/1792239041518-1-mecanum_agritech_robot_visual.png",
         "video": "",
         "repoUrl": "",
         "demoUrl": ""
