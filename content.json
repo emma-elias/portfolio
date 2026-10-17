@@ -8,7 +8,7 @@
     "footerLine": "ENGINEERING WITH INTENT."
   },
   "hero": {
-    "badge": "MECHANICAL ENGINEERING · ROBOTICS PATHWAY",
+    "badge": "MECHANICAL ENGINEERING · APPLIED AI . ROBOTICS ",
     "titleBefore": "I build mechanical foundations for",
     "titleEmphasis": "Robotics",
     "titleAfter": "& Autonomous Systems.",
@@ -19,7 +19,7 @@
     "secondaryLink": "#contact",
     "metaOne": "STUDENT ENGINEER",
     "metaTwo": "NIGERIA · OPEN TO COLLABORATION",
-    "image": "assets/profile-photo.png"
+    "image": "uploads/1792257671576-1-profile-photo.png"
   },
   "marquee": [
     "Robotics",
@@ -174,16 +174,16 @@
     "lead": "Add the placements, student teams, labs, volunteering, competitions, and hands-on roles that demonstrate your real engineering practice.",
     "items": [
       {
-        "role": "Add your first experience",
-        "organisation": "ORGANISATION / STUDENT TEAM",
-        "date": "DATE RANGE",
-        "summary": "Use the CMS to add a genuine experience, explain your contribution, and attach photos or a short video where appropriate.",
+        "role": "Mechanical Design Engineer Intern",
+        "organisation": "CodeAlpha. India",
+        "date": "Jan. 2026 - March 2026",
+        "summary": "I worked remotely, designing and running structural analysis on real mechanical components using SolidWorks, Ansys and Documentation.",
         "bullets": [
-          "Your responsibility",
-          "A tool or method used",
-          "A real learning outcome"
+          "Design and Analysis",
+          "SolidWorks, Ansys",
+          "Documentation and Optimization."
         ],
-        "image": "",
+        "image": "uploads/1792257679791-2-1792257333725.jpg",
         "video": ""
       }
     ]
@@ -234,17 +234,17 @@
     "headingBefore": "Tell me what you’re",
     "headingEmphasis": "trying to solve.",
     "summary": "I’m open to robotics collaborations, student engineering projects, internships, research opportunities, and conversations around autonomous systems.",
-    "email": "your.email@example.com",
-    "location": "Ibadan, Nigeria",
+    "email": "eliasemma1620@gmail.com",
+    "location": "Lagos, Nigeria",
     "availability": "COLLABORATION · INTERNSHIPS · RESEARCH",
     "socials": [
       {
         "label": "LinkedIn",
-        "url": "https://www.linkedin.com/"
+        "url": "https://www.linkedin.com/in/e-elias"
       },
       {
         "label": "GitHub",
-        "url": "https://github.com/"
+        "url": "https://emma-elias.github.io/portfolio"
       }
     ]
   }
