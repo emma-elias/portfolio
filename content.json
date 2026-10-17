@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "site": {
+    "logoName": "Elias",
+    "logoMark": ".",
+    "browserTitle": "Elias | Robotics & Autonomous Systems",
+    "description": "Mechanical Engineering student portfolio focused on Robotics and Autonomous Systems.",
+    "footerLine": "ENGINEERING WITH INTENT."
+  },
+  "hero": {
+    "badge": "MECHANICAL ENGINEERING · ROBOTICS PATHWAY",
+    "titleBefore": "I build mechanical foundations for",
+    "titleEmphasis": "Robotics",
+    "titleAfter": "& Autonomous Systems.",
+    "summary": "I’m a Mechanical Engineering student deliberately growing into robotics: designing the hardware, sensing the world, and building the control systems that let machines move with purpose.",
+    "primaryLabel": "Explore my work",
+    "primaryLink": "#work",
+    "secondaryLabel": "Get in touch",
+    "secondaryLink": "#contact",
+    "metaOne": "STUDENT ENGINEER",
+    "metaTwo": "NIGERIA · OPEN TO COLLABORATION",
+    "image": "assets/profile-photo.png"
+  },
+  "marquee": [
+    "Robotics",
+    "Autonomous Systems",
+    "Mechanical Design",
+    "Embedded Control",
+    "Computer Vision"
+  ],
+  "story": {
+    "headingBefore": "I started with mechanical systems.",
+    "headingEmphasis": "Autonomy is where I’m taking them.",
+    "lead": "Mechanical engineering taught me to care about the details behind reliable motion: forces, materials, energy, design constraints, and how systems behave in the real world.",
+    "body": "I’m now extending that foundation into Robotics and Autonomous Systems, where the machine itself is only one part of the work. Sensors have to be interpreted, decisions have to be made, and the physical system has to execute safely.",
+    "note": "Use the CMS to add your university, current level, industrial training, student team, or a workshop experience that genuinely shaped your direction.",
+    "quoteBefore": "I want to make intelligent machines that are grounded in",
+    "quoteEmphasis": "good engineering",
+    "quoteAfter": "not just good ideas.",
+    "image": "assets/profile-photo.png",
+    "caption": "ELIAS · STUDENT ENGINEER",
+    "facts": [
+      {
+        "label": "FOUNDATION",
+        "value": "Mechanical\nEngineering"
+      },
+      {
+        "label": "GROWING INTO",
+        "value": "Robotics &\nAutonomy"
+      },
+      {
+        "label": "WORK STYLE",
+        "value": "Build, test,\nimprove."
+      }
+    ]
+  },
+  "focus": {
+    "headingBefore": "The systems behind",
+    "headingEmphasis": "useful autonomy.",
+    "lead": "I’m developing these disciplines together, because a capable robot is never just code, mechanics, or electronics in isolation.",
+    "items": [
+      {
+        "icon": "⌁",
+        "title": "Robotic Mechanisms",
+        "summary": "Designing chassis, joints, actuators, and end effectors that can be built, tested, and trusted.",
+        "tags": "CAD · KINEMATICS · PROTOTYPING"
+      },
+      {
+        "icon": "◎",
+        "title": "Sensing & Perception",
+        "summary": "Using cameras, range sensors, and signals to give physical machines a meaningful view of their environment.",
+        "tags": "COMPUTER VISION · SENSOR FUSION"
+      },
+      {
+        "icon": "↗",
+        "title": "Autonomous Mobility",
+        "summary": "Exploring localisation, obstacle avoidance, mapping, and planning for mobile robots in actual spaces.",
+        "tags": "ROS · NAVIGATION · SLAM"
+      },
+      {
+        "icon": "∿",
+        "title": "Control & Embedded Systems",
+        "summary": "Connecting models, sensors, and actuators through feedback loops that create precise physical behaviour.",
+        "tags": "PID · MICROCONTROLLERS · REAL TIME"
+      }
+    ]
+  },
+  "projects": {
+    "headingBefore": "Concepts I’m turning",
+    "headingEmphasis": "into evidence.",
+    "lead": "These projects are intentionally labelled as concept builds until the prototypes, source code, test media, and measured results are real. No invented performance claims.",
+    "items": [
+      {
+        "id": "pathfinder",
+        "status": "CONCEPT BUILD",
+        "area": "ROBOTICS / AUTONOMY",
+        "title": "Pathfinder Inspection Rover",
+        "summary": "A compact mobile robot concept designed to navigate a mapped indoor route, identify obstacles, and support simple inspection tasks.",
+        "tags": [
+          "Mechanical Design",
+          "ROS",
+          "LiDAR / Range Sensing"
+        ],
+        "challenge": "Build a small rover architecture that connects mobility, sensing, and a clear inspection task.",
+        "approach": "Start with constraints, make the drive and sensing interfaces testable, then log failures and iterate.",
+        "outcome": "Replace this with only measured results, test conditions, and evidence once the project is built.",
+        "image": "",
+        "video": "",
+        "repoUrl": "",
+        "demoUrl": ""
+      },
+      {
+        "id": "kinetigrip",
+        "status": "CONCEPT BUILD",
+        "area": "MECHANISM / CONTROL",
+        "title": "KinetiGrip Smart Gripper",
+        "summary": "An adaptive gripper that explores compliant mechanics, servo control, and safe object handling.",
+        "tags": [
+          "Mechanisms",
+          "Arduino",
+          "3D Design"
+        ],
+        "challenge": "Explore a simple end effector that balances grip force, object variation, and manufacturability.",
+        "approach": "Prototype one variable at a time: linkage geometry, actuation, then sensing or feedback.",
+        "outcome": "Add the payload range, repeatability, failure modes, and videos after testing.",
+        "image": "",
+        "video": "",
+        "repoUrl": "",
+        "demoUrl": ""
+      },
+      {
+        "id": "navsight",
+        "status": "CONCEPT BUILD",
+        "area": "PERCEPTION / AI",
+        "title": "NavSight Vision Stack",
+        "summary": "A focused computer-vision experiment for recognising navigation cues from a low-cost camera feed.",
+        "tags": [
+          "Python",
+          "OpenCV",
+          "Perception"
+        ],
+        "challenge": "Turn a camera stream into a small, explainable navigation signal.",
+        "approach": "Define a visual cue, collect representative conditions, then measure where the method succeeds and fails.",
+        "outcome": "Replace with dataset notes, test footage, accuracy measures, and limitations.",
+        "image": "",
+        "video": "",
+        "repoUrl": "",
+        "demoUrl": ""
+      },
+      {
+        "id": "rovertwin",
+        "status": "CONCEPT BUILD",
+        "area": "SIMULATION / SYSTEMS",
+        "title": "RoverTwin Digital Prototype",
+        "summary": "A simulation-first experiment for testing a rover’s behaviour under changing loads, terrain, and power constraints.",
+        "tags": [
+          "Simulation",
+          "Systems",
+          "Analysis"
+        ],
+        "challenge": "Make design trade-offs visible before committing to hardware.",
+        "approach": "Model a small number of relevant assumptions and compare outcomes against future physical tests.",
+        "outcome": "Publish parameters, assumptions, test plots, and lessons—not unverified claims.",
+        "image": "",
+        "video": "",
+        "repoUrl": "",
+        "demoUrl": ""
+      }
+    ]
+  },
+  "experience": {
+    "headingBefore": "Learning by building",
+    "headingEmphasis": "and showing the work.",
+    "lead": "Add the placements, student teams, labs, volunteering, competitions, and hands-on roles that demonstrate your real engineering practice.",
+    "items": [
+      {
+        "role": "Add your first experience",
+        "organisation": "ORGANISATION / STUDENT TEAM",
+        "date": "DATE RANGE",
+        "summary": "Use the CMS to add a genuine experience, explain your contribution, and attach photos or a short video where appropriate.",
+        "bullets": [
+          "Your responsibility",
+          "A tool or method used",
+          "A real learning outcome"
+        ],
+        "image": "",
+        "video": ""
+      }
+    ]
+  },
+  "direction": {
+    "headingBefore": "Where I’m going",
+    "headingEmphasis": "next.",
+    "lead": "I’m looking for work that turns engineering fundamentals into reliable, observable, and useful autonomous systems.",
+    "items": [
+      {
+        "title": "Build in the open",
+        "summary": "Document prototypes, tests, trade-offs, and failures with the same care as final work."
+      },
+      {
+        "title": "Earn evidence",
+        "summary": "Prefer measurable results, reproducible methods, and honest limitations over inflated claims."
+      },
+      {
+        "title": "Learn with teams",
+        "summary": "Contribute to labs, student teams, internships, and communities where systems are actually built."
+      }
+    ]
+  },
+  "proof": {
+    "headingBefore": "Show the work.",
+    "headingEmphasis": "Keep the receipts.",
+    "lead": "Use this space for verifiable milestones: completed courses, published write-ups, competition entries, certificates, repository releases, and supervised work.",
+    "cvUrl": "assets/your-name-cv.pdf",
+    "cvLabel": "Download CV",
+    "items": [
+      {
+        "date": "NEXT MILESTONE",
+        "title": "Add a verified milestone",
+        "summary": "Use the CMS to add a credential, event, course, award, or build outcome only when you can link to supporting evidence.",
+        "linkLabel": "ADD EVIDENCE URL",
+        "linkUrl": ""
+      },
+      {
+        "date": "IN PROGRESS",
+        "title": "Document a build process",
+        "summary": "Publish the brief, constraints, iterations, and measured results when they exist.",
+        "linkLabel": "ADD PROJECT URL",
+        "linkUrl": ""
+      }
+    ]
+  },
+  "contact": {
+    "headingBefore": "Tell me what you’re",
+    "headingEmphasis": "trying to solve.",
+    "summary": "I’m open to robotics collaborations, student engineering projects, internships, research opportunities, and conversations around autonomous systems.",
+    "email": "your.email@example.com",
+    "location": "Ibadan, Nigeria",
+    "availability": "COLLABORATION · INTERNSHIPS · RESEARCH",
+    "socials": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/"
+      }
+    ]
+  }
+}
