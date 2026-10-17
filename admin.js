@@ -37,6 +37,46 @@
   function repeatHead(listPath, index, title, kicker = '') {
     return `<div class="repeat-head"><div><span class="card-kicker">${esc(kicker || `ITEM ${String(index + 1).padStart(2,'0')}`)}</span><h3>${esc(title || 'Untitled item')}</h3></div><div class="repeat-actions"><button class="tiny-btn" data-move="${esc(listPath)}" data-index="${index}" data-direction="-1" title="Move up">↑</button><button class="tiny-btn" data-move="${esc(listPath)}" data-index="${index}" data-direction="1" title="Move down">↓</button><button class="danger-btn tiny-delete" data-remove="${esc(listPath)}" data-index="${index}">Delete</button></div></div>`;
   }
+  function galleryEditor(path, label) {
+  const entries = Array.isArray(get(path)) ? get(path) : [];
+  return `<section class="gallery-editor">
+    <h4>${esc(label)}</h4>
+    <p class="hint">Add images and short videos in the order you want visitors to see them. Existing cover media remains first.</p>
+    <div class="gallery-editor-list">
+      ${entries.map((entry, index) => {
+        const type = entry?.type === 'video' ? 'video' : 'image';
+        const src = entry?.src || '';
+        const preview = src
+          ? (type === 'video' ? `<video src="${esc(src)}" muted playsinline></video>` : '')
+          : '';
+        return `<div class="gallery-editor-row">
+          <div class="media-preview" ${type === 'image' && src ? `style="background-image:url('${esc(src).replace(/'/g, '%27')}')"` : ''}>${preview || (src ? '' : `NO ${type.toUpperCase()}`)}</div>
+          <div>
+            <b>${type === 'video' ? 'Video' : 'Image'} ${index + 1}</b>
+            <input type="file" accept="${type === 'video' ? 'video/*' : 'image/*'}" data-media="${path}.${index}.src">
+            <button class="danger-btn tiny-delete" type="button" data-remove-gallery-item="${path}" data-index="${index}">Delete</button>
+          </div>
+        </div>`;
+      }).join('') || '<p class="hint">No additional gallery items yet.</p>'}
+    </div>
+    <div class="gallery-add-actions">
+      <button class="tiny-btn" type="button" data-add-gallery="${path}" data-gallery-type="image">+ Add image</button>
+      <button class="tiny-btn" type="button" data-add-gallery="${path}" data-gallery-type="video">+ Add video</button>
+    </div>
+  </section>`;
+}
+
+function modelBox(path, label) {
+  const src = val(path);
+  return `<div class="media-box">
+    <div class="media-preview">${src ? 'STL READY' : 'NO STL'}</div>
+    <div>
+      <p><b>${esc(label)}</b><br>Optional STL model. Visitors receive a View 3D button only when a file is uploaded.</p>
+      <input type="file" accept=".stl,model/stl,application/sla,application/vnd.ms-pki.stl" data-media="${esc(path)}">
+      <div style="margin-top:9px">${src ? `<button class="tiny-btn" type="button" data-remove-media="${esc(path)}">Remove STL</button>` : ''}<span class="hint">${src ? esc(src.startsWith('blob:') ? 'New STL — publish to make it live.' : `Current: ${src}`) : 'No STL selected.'}</span></div>
+    </div>
+  </div>`;
+}
   function mediaBox(path, label, kind = 'image') {
     const src = val(path); const isVideo = kind === 'video';
     const preview = src ? (isVideo ? `<video src="${esc(src)}" muted playsinline></video>` : '') : '';
