@@ -145,20 +145,32 @@ function mediaCarousel(item, index, context) {
     return `<div class="project-art ${styles[index % styles.length]}">${details[index % details.length]}<span>${esc(project.area || 'PROJECT')}</span></div>`;
   }
 
-  function renderProjects(projects) {
-    const grid = byId('projectGrid');
-    if (!grid) return;
-    if (!projects.length) { grid.innerHTML = '<p class="empty-state">No projects have been published yet.</p>'; return; }
-    grid.innerHTML = projects.map((project, index) => {
-      const tags = (project.tags || []).map(tag => `<span>${esc(tag)}</span>`).join('');
-      const proof = project.outcome ? `<div class="project-proof"><b>PROJECT SUMMARY / EVIDENCE</b>${esc(project.outcome)}</div>` : '';
-      return `<article class="project-card ${index === 0 ? 'project-large' : ''} reveal ${index % 2 ? 'delay-1' : ''}">
-        ${projectArt(project, index)}
-        <div class="project-content"><div class="project-kicker"><span>${String(index + 1).padStart(2, '0')} · ${esc(project.status || 'PROJECT')}</span><span>${esc(project.area || 'ENGINEERING')}</span></div>
-        <h3>${esc(project.title)}</h3><p>${esc(project.summary)}</p><div class="project-tags">${tags}</div>${proof}
-        <button class="case-link" data-project-id="${esc(project.id || String(index))}">View project brief <b>↗</b></button></div></article>`;
-    }).join('');
+function renderProjects(projects) {
+  const grid = byId('projectGrid');
+  if (!grid) return;
+
+  const displayedProjects = isAllProjectsPage ? projects : projects.slice(0, MAX_FEATURED_PROJECTS);
+  if (!displayedProjects.length) {
+    grid.innerHTML = '<p class="empty-state">No projects have been published yet.</p>';
+    return;
   }
+
+  grid.innerHTML = displayedProjects.map((project, index) => {
+    const tags = (project.tags || []).map(tag => `<span>${esc(tag)}</span>`).join('');
+    const proof = project.outcome ? `<div class="project-proof"><b>PROJECT SUMMARY / EVIDENCE</b>${esc(project.outcome)}</div>` : '';
+    return `<article class="project-card ${index === 0 ? 'project-large' : ''} reveal ${index % 2 ? 'delay-1' : ''}">
+      ${projectArt(project, index)}
+      <div class="project-content">
+        <div class="project-kicker"><span>${String(index + 1).padStart(2, '0')} · ${esc(project.status || 'PROJECT')}</span><span>${esc(project.area || 'ENGINEERING')}</span></div>
+        <h3>${esc(project.title)}</h3>
+        <p>${esc(project.summary)}</p>
+        <div class="project-tags">${tags}</div>
+        ${proof}
+        <button class="case-link" type="button" data-project-id="${esc(project.id || String(index))}">View project brief <b>↗</b></button>
+      </div>
+    </article>`;
+  }).join('');
+}
 
   function showProject(project) {
     const modal = byId('projectModal');
