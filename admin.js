@@ -37,51 +37,25 @@
   function repeatHead(listPath, index, title, kicker = '') {
     return `<div class="repeat-head"><div><span class="card-kicker">${esc(kicker || `ITEM ${String(index + 1).padStart(2,'0')}`)}</span><h3>${esc(title || 'Untitled item')}</h3></div><div class="repeat-actions"><button class="tiny-btn" data-move="${esc(listPath)}" data-index="${index}" data-direction="-1" title="Move up">↑</button><button class="tiny-btn" data-move="${esc(listPath)}" data-index="${index}" data-direction="1" title="Move down">↓</button><button class="danger-btn tiny-delete" data-remove="${esc(listPath)}" data-index="${index}">Delete</button></div></div>`;
   }
-  function galleryEditor(path, label) {
-  const entries = Array.isArray(get(path)) ? get(path) : [];
-  return `<section class="gallery-editor">
-    <h4>${esc(label)}</h4>
-    <p class="hint">Add images and short videos in the order you want visitors to see them. Existing cover media remains first.</p>
-    <div class="gallery-editor-list">
-      ${entries.map((entry, index) => {
-        const type = entry?.type === 'video' ? 'video' : 'image';
-        const src = entry?.src || '';
-        const preview = src
-          ? (type === 'video' ? `<video src="${esc(src)}" muted playsinline></video>` : '')
-          : '';
-        return `<div class="gallery-editor-row">
-          <div class="media-preview" ${type === 'image' && src ? `style="background-image:url('${esc(src).replace(/'/g, '%27')}')"` : ''}>${preview || (src ? '' : `NO ${type.toUpperCase()}`)}</div>
-          <div>
-            <b>${type === 'video' ? 'Video' : 'Image'} ${index + 1}</b>
-            <input type="file" accept="${type === 'video' ? 'video/*' : 'image/*'}" data-media="${path}.${index}.src">
-            <button class="danger-btn tiny-delete" type="button" data-remove-gallery-item="${path}" data-index="${index}">Delete</button>
-          </div>
-        </div>`;
-      }).join('') || '<p class="hint">No additional gallery items yet.</p>'}
-    </div>
-    <div class="gallery-add-actions">
-      <button class="tiny-btn" type="button" data-add-gallery="${path}" data-gallery-type="image">+ Add image</button>
-      <button class="tiny-btn" type="button" data-add-gallery="${path}" data-gallery-type="video">+ Add video</button>
-    </div>
-  </section>`;
-}
-
-function modelBox(path, label) {
-  const src = val(path);
-  return `<div class="media-box">
-    <div class="media-preview">${src ? 'STL READY' : 'NO STL'}</div>
-    <div>
-      <p><b>${esc(label)}</b><br>Optional STL model. Visitors receive a View 3D button only when a file is uploaded.</p>
-      <input type="file" accept=".stl,model/stl,application/sla,application/vnd.ms-pki.stl" data-media="${esc(path)}">
-      <div style="margin-top:9px">${src ? `<button class="tiny-btn" type="button" data-remove-media="${esc(path)}">Remove STL</button>` : ''}<span class="hint">${src ? esc(src.startsWith('blob:') ? 'New STL — publish to make it live.' : `Current: ${src}`) : 'No STL selected.'}</span></div>
-    </div>
-  </div>`;
-}
   function mediaBox(path, label, kind = 'image') {
     const src = val(path); const isVideo = kind === 'video';
     const preview = src ? (isVideo ? `<video src="${esc(src)}" muted playsinline></video>` : '') : '';
     const visual = src ? `<div class="media-preview" ${isVideo ? '' : `style="background-image:url('${esc(src).replace(/'/g, '%27')}')"`}>${preview}</div>` : `<div class="media-preview">NO ${kind.toUpperCase()}</div>`;
     return `<div class="media-box">${visual}<div><p><b>${esc(label)}</b><br>Upload a ${kind}. It will be published into an <code>uploads</code> folder on GitHub when you press Publish.</p><input type="file" accept="${isVideo ? 'video/*' : 'image/*'}" data-media="${esc(path)}" data-kind="${kind}"><div style="margin-top:9px">${src ? `<button class="tiny-btn" data-remove-media="${esc(path)}">Remove ${kind}</button>` : ''}<span class="hint">${src ? esc(src.startsWith('blob:') ? 'New file — publish to make it live.' : `Current: ${src}`) : 'No file selected.'}</span></div></div></div>`;
+  }
+
+  function galleryEditor(path, label) {
+    const entries = Array.isArray(get(path)) ? get(path) : [];
+    return `<section class="gallery-editor"><h4>${esc(label)}</h4><p class="hint">Add images and short videos in the order you want visitors to see them. Existing cover media remains first.</p><div class="gallery-editor-list">${entries.map((entry, index) => {
+      const type = entry?.type === 'video' ? 'video' : 'image'; const src = entry?.src || '';
+      const preview = src ? (type === 'video' ? `<video src="${esc(src)}" muted playsinline></video>` : '') : '';
+      return `<div class="gallery-editor-row"><div class="media-preview" ${type === 'image' && src ? `style="background-image:url('${esc(src).replace(/'/g, '%27')}')"` : ''}>${preview || (src ? '' : `NO ${type.toUpperCase()}`)}</div><div><b>${type === 'video' ? 'Video' : 'Image'} ${index + 1}</b><input type="file" accept="${type === 'video' ? 'video/*' : 'image/*'}" data-media="${path}.${index}.src"><button class="danger-btn tiny-delete" type="button" data-remove-gallery-item="${path}" data-index="${index}">Delete</button></div></div>`;
+    }).join('') || '<p class="hint">No additional gallery items yet.</p>'}</div><div class="gallery-add-actions"><button class="tiny-btn" type="button" data-add-gallery="${path}" data-gallery-type="image">+ Add image</button><button class="tiny-btn" type="button" data-add-gallery="${path}" data-gallery-type="video">+ Add video</button></div></section>`;
+  }
+
+  function modelBox(path, label) {
+    const src = val(path);
+    return `<div class="media-box"><div class="media-preview">${src ? 'STL READY' : 'NO STL'}</div><div><p><b>${esc(label)}</b><br>Optional STL model. Visitors receive a View 3D button only when a file is uploaded.</p><input type="file" accept=".stl,model/stl,application/sla,application/vnd.ms-pki.stl" data-media="${esc(path)}"><div style="margin-top:9px">${src ? `<button class="tiny-btn" type="button" data-remove-media="${esc(path)}">Remove STL</button>` : ''}<span class="hint">${src ? esc(src.startsWith('blob:') ? 'New STL — publish to make it live.' : `Current: ${src}`) : 'No STL selected.'}</span></div></div></div>`;
   }
   const addButton = (path, type) => `<button class="add-btn" data-add="${path}" data-type="${type}">+ Add ${type}</button>`;
 
@@ -101,11 +75,11 @@ function modelBox(path, label) {
   }
   function renderProjects() {
     const items = content.projects.items || [];
-    return intro('Projects', 'Create, edit, reorder, and delete project cards. Attach an image or a short video, project summary, evidence, repository, and demo links.', '<div class="guide"><b>Publishing media:</b> Images and short videos are uploaded to your GitHub repository when you publish. Keep videos reasonably small; GitHub’s Contents API has a 100 MB file limit.</div>') + `<div class="form-grid">${card('Section copy',field('projects.headingBefore','Heading — before italic')+field('projects.headingEmphasis','Italic heading words')+field('projects.lead','Introduction',{type:'textarea'}),true)}</div><div class="repeat-list">${items.map((item,i) => `<article class="repeat-card">${repeatHead('projects.items',i,item.title,item.status || 'PROJECT')}<div class="form-grid">${field(`projects.items.${i}.title`,'Project title')}${field(`projects.items.${i}.status`,'Status',{hint:'For example: CONCEPT BUILD, COMPLETED, IN PROGRESS'})}${field(`projects.items.${i}.area`,'Discipline / area')}${field(`projects.items.${i}.tags`,'Tools / skills (comma separated)',{hint:'Example: CAD, Arduino, OpenCV'})}${field(`projects.items.${i}.summary`,'Project summary',{type:'textarea'})}${field(`projects.items.${i}.challenge`,'Challenge',{type:'textarea'})}${field(`projects.items.${i}.approach`,'Approach',{type:'textarea'})}${field(`projects.items.${i}.outcome`,'Evidence / outcome',{type:'textarea',hint:'Add real results, conditions, or limitations.'})}${field(`projects.items.${i}.repoUrl`,'Repository URL',{type:'url',placeholder:'https://github.com/...'} )}${field(`projects.items.${i}.demoUrl`,'Demo / video URL',{type:'url',placeholder:'https://...'})}</div>${mediaBox(`projects.items.${i}.image`,'Project image','image')}${mediaBox(`projects.items.${i}.video`,'Project short video','video')}</article>`).join('') || '<div class="empty-admin">No projects yet.</div>'}${addButton('projects.items','project')}</div>`;
+    return intro('Projects', 'Create, edit, reorder, and delete project cards. Attach an image or a short video, project summary, evidence, repository, and demo links.', '<div class="guide"><b>Publishing media:</b> Images and short videos are uploaded to your GitHub repository when you publish. Keep videos reasonably small; GitHub’s Contents API has a 100 MB file limit.</div>') + `<div class="form-grid">${card('Section copy',field('projects.headingBefore','Heading — before italic')+field('projects.headingEmphasis','Italic heading words')+field('projects.lead','Introduction',{type:'textarea'}),true)}</div><div class="repeat-list">${items.map((item,i) => `<article class="repeat-card">${repeatHead('projects.items',i,item.title,item.status || 'PROJECT')}<div class="form-grid">${field(`projects.items.${i}.title`,'Project title')}${field(`projects.items.${i}.status`,'Status',{hint:'For example: CONCEPT BUILD, COMPLETED, IN PROGRESS'})}${field(`projects.items.${i}.area`,'Discipline / area')}${field(`projects.items.${i}.tags`,'Tools / skills (comma separated)',{hint:'Example: CAD, Arduino, OpenCV'})}${field(`projects.items.${i}.summary`,'Project summary',{type:'textarea'})}${field(`projects.items.${i}.challenge`,'Challenge',{type:'textarea'})}${field(`projects.items.${i}.approach`,'Approach',{type:'textarea'})}${field(`projects.items.${i}.outcome`,'Evidence / outcome',{type:'textarea',hint:'Add real results, conditions, or limitations.'})}${field(`projects.items.${i}.repoUrl`,'Repository URL',{type:'url',placeholder:'https://github.com/...'} )}${field(`projects.items.${i}.demoUrl`,'Demo / video URL',{type:'url',placeholder:'https://...'})}</div>${mediaBox(`projects.items.${i}.image`,'Project cover image (existing field)','image')}${mediaBox(`projects.items.${i}.video`,'Project cover video (existing field)','video')}${galleryEditor(`projects.items.${i}.media`,'Additional project gallery')}${modelBox(`projects.items.${i}.model3d`,'Optional 3D STL model')}</article>`).join('') || '<div class="empty-admin">No projects yet.</div>'}${addButton('projects.items','project')}</div>`;
   }
   function renderExperience() {
     const items = content.experience.items || [];
-    return intro('Experience', 'Add professional, student-team, lab, volunteering, competition, and industrial-training experiences. Attach real media where useful.') + `<div class="form-grid">${card('Section copy',field('experience.headingBefore','Heading — before italic')+field('experience.headingEmphasis','Italic heading words')+field('experience.lead','Introduction',{type:'textarea'}),true)}</div><div class="repeat-list">${items.map((item,i) => `<article class="repeat-card">${repeatHead('experience.items',i,item.role,'EXPERIENCE')}<div class="form-grid">${field(`experience.items.${i}.role`,'Role / position')}${field(`experience.items.${i}.organisation`,'Organisation / team')}${field(`experience.items.${i}.date`,'Date range')}${field(`experience.items.${i}.bulletsText`,'Key points (one per line)',{type:'textarea',hint:'These become small tags. Use truthful, specific notes.'})}${field(`experience.items.${i}.summary`,'Summary',{type:'textarea',wide:true})}</div>${mediaBox(`experience.items.${i}.image`,'Experience image','image')}${mediaBox(`experience.items.${i}.video`,'Experience short video','video')}</article>`).join('') || '<div class="empty-admin">No experience entries yet.</div>'}${addButton('experience.items','experience')}</div>`;
+    return intro('Experience', 'Add professional, student-team, lab, volunteering, competition, and industrial-training experiences. Attach real media where useful.') + `<div class="form-grid">${card('Section copy',field('experience.headingBefore','Heading — before italic')+field('experience.headingEmphasis','Italic heading words')+field('experience.lead','Introduction',{type:'textarea'}),true)}</div><div class="repeat-list">${items.map((item,i) => `<article class="repeat-card">${repeatHead('experience.items',i,item.role,'EXPERIENCE')}<div class="form-grid">${field(`experience.items.${i}.role`,'Role / position')}${field(`experience.items.${i}.organisation`,'Organisation / team')}${field(`experience.items.${i}.date`,'Date range')}${field(`experience.items.${i}.bulletsText`,'Key points (one per line)',{type:'textarea',hint:'These become small tags. Use truthful, specific notes.'})}${field(`experience.items.${i}.summary`,'Summary',{type:'textarea',wide:true})}</div>${mediaBox(`experience.items.${i}.image`,'Experience cover image (existing field)','image')}${mediaBox(`experience.items.${i}.video`,'Experience cover video (existing field)','video')}${galleryEditor(`experience.items.${i}.media`,'Additional experience gallery')}${modelBox(`experience.items.${i}.model3d`,'Optional 3D STL model')}</article>`).join('') || '<div class="empty-admin">No experience entries yet.</div>'}${addButton('experience.items','experience')}</div>`;
   }
   function renderDirection() {
     return intro('Direction', 'These cards can express the career direction, learning principles, and practical values you want to be known for.') + `<div class="form-grid">${card('Section copy',field('direction.headingBefore','Heading — before italic')+field('direction.headingEmphasis','Italic heading words')+field('direction.lead','Introduction',{type:'textarea'}),true)}</div><div class="repeat-list">${(content.direction.items||[]).map((item,i)=>`<article class="repeat-card">${repeatHead('direction.items',i,item.title,'PRINCIPLE')}<div class="form-grid">${field(`direction.items.${i}.title`,'Title')}${field(`direction.items.${i}.summary`,'Description',{type:'textarea'})}</div></article>`).join('') || '<div class="empty-admin">No direction items yet.</div>'}${addButton('direction.items','direction')}</div>`;
@@ -130,8 +104,8 @@ function modelBox(path, label) {
   function defaultItem(type) {
     const objects = {
       fact:{label:'NEW FACT',value:'Add your fact'}, focus:{icon:'↗',title:'New focus area',summary:'Describe the skill or practical area you are developing.',tags:'TOOLS · METHODS'},
-      project:{id:`project-${Date.now()}`,status:'IN PROGRESS',area:'ENGINEERING',title:'New project',summary:'Add a clear, truthful project summary.',tags:['Engineering'],challenge:'Add the problem or constraint.',approach:'Add what you designed, tested, or analysed.',outcome:'Add only measured results, evidence, and limitations.',image:'',video:'',repoUrl:'',demoUrl:''},
-      experience:{role:'New experience',organisation:'ORGANISATION / TEAM',date:'DATE RANGE',summary:'Describe your responsibility and what you learned.',bullets:['Key responsibility'],image:'',video:''},
+      project:{id:`project-${Date.now()}`,status:'IN PROGRESS',area:'ENGINEERING',title:'New project',summary:'Add a clear, truthful project summary.',tags:['Engineering'],challenge:'Add the problem or constraint.',approach:'Add what you designed, tested, or analysed.',outcome:'Add only measured results, evidence, and limitations.',image:'',video:'',media:[],model3d:'',repoUrl:'',demoUrl:''},
+      experience:{role:'New experience',organisation:'ORGANISATION / TEAM',date:'DATE RANGE',summary:'Describe your responsibility and what you learned.',bullets:['Key responsibility'],image:'',video:'',media:[],model3d:''},
       direction:{title:'New direction',summary:'Describe this priority or principle.'}, proof:{date:'DATE / STATUS',title:'New milestone',summary:'Describe a verifiable outcome.',linkLabel:'VIEW EVIDENCE',linkUrl:''}, social:{label:'New link',url:'https://'}
     }; return objects[type];
   }
@@ -184,6 +158,20 @@ function modelBox(path, label) {
     const add=event.target.closest('[data-add]'); if(add){addItem(add.dataset.add,add.dataset.type);return;}
     const remove=event.target.closest('[data-remove]'); if(remove){removeItem(remove.dataset.remove,remove.dataset.index);return;}
     const move=event.target.closest('[data-move]'); if(move){moveItem(move.dataset.move,move.dataset.index,move.dataset.direction);return;}
+    const addGallery=event.target.closest('[data-add-gallery]');
+    if(addGallery){const path=addGallery.dataset.addGallery;if(!Array.isArray(get(path)))set(path,[]);get(path).push({type:addGallery.dataset.galleryType,src:''});renderSection();return;}
+    const removeGalleryItem=event.target.closest('[data-remove-gallery-item]');
+    if(removeGalleryItem){
+      const path=removeGalleryItem.dataset.removeGalleryItem,index=Number(removeGalleryItem.dataset.index),list=get(path)||[];
+      list.splice(index,1);
+      for(const [key,file] of [...pendingMedia.entries()]){
+        if(!key.startsWith(`${path}.`)) continue;
+        const oldIndex=Number(key.slice(path.length+1).split('.')[0]);
+        if(oldIndex===index) pendingMedia.delete(key);
+        else if(oldIndex>index){pendingMedia.delete(key);pendingMedia.set(`${path}.${oldIndex-1}.src`,file);}
+      }
+      renderSection();return;
+    }
     const removeMedia=event.target.closest('[data-remove-media]'); if(removeMedia){pendingMedia.delete(removeMedia.dataset.removeMedia);set(removeMedia.dataset.removeMedia,'');renderSection();return;}
     if(event.target.closest('#publishNow')){publish();return;}
     if(event.target.closest('#exportContent')){exportContent();return;}

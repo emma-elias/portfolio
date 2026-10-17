@@ -40,23 +40,16 @@
     <section id="focus" class="alt"><div class="wrap"><div class="section-heading reveal"><p class="eyebrow">What I’m building towards</p><h2 class="section-title" id="focusHeading"></h2><p class="section-lead" id="focusLead"></p></div><div class="focus-grid" id="focusGrid"></div></div></section>
 
     <section id="work">
-  <div class="wrap">
-    <div class="work-top reveal">
-      <div>
-        <p class="eyebrow">Selected work</p>
-        <h2 class="section-title" id="projectsHeading"></h2>
+      <div class="wrap">
+        <div class="work-top reveal">
+          <div><p class="eyebrow">Selected work</p><h2 class="section-title" id="projectsHeading"></h2></div>
+          <div class="work-aside"><p id="projectsLead"></p><a class="all-projects-link" id="allProjectsTop" href="projects.html">See all projects <span>↗</span></a></div>
+        </div>
+        <div class="project-grid" id="projectGrid"></div>
+        <div class="all-projects-bottom"><a class="all-projects-link" id="allProjectsBottom" href="projects.html">See all projects <span>↗</span></a></div>
       </div>
-      <div class="work-aside">
-        <p id="projectsLead"></p>
-        <a class="all-projects-link" id="allProjectsTop" href="projects.html">See all projects <span>↗</span></a>
-      </div>
-    </div>
-    <div class="project-grid" id="projectGrid"></div>
-    <div class="all-projects-bottom">
-      <a class="all-projects-link" id="allProjectsBottom" href="projects.html">See all projects <span>↗</span></a>
-    </div>
-  </div>
-</section>
+    </section>
+
     <section id="experience"><div class="wrap"><div class="section-heading reveal"><p class="eyebrow">Experience</p><h2 class="section-title" id="experienceHeading"></h2><p class="section-lead" id="experienceLead"></p></div><div class="experience-list" id="experienceList"></div></div></section>
 
     <section id="direction"><div class="wrap direction-wrap"><div class="direction-copy reveal"><p class="eyebrow">Direction</p><h2 class="section-title" id="directionHeading"></h2><p class="section-lead" id="directionLead"></p></div><div class="direction-list" id="directionList"></div></div></section>
@@ -67,16 +60,8 @@
   </main>
   <footer><div class="wrap footer-inner"><span>© <span id="year"></span> <span id="footerName"></span></span><span id="footerLine"></span><a href="#hero">Back to top ↑</a></div></footer>
 
-  <div class="model-modal" id="modelModal" aria-hidden="true">
-  <button class="model-overlay" type="button" aria-label="Close 3D viewer"></button>
-  <article class="model-card" role="dialog" aria-modal="true" aria-labelledby="modelTitle">
-    <button class="model-close" type="button" aria-label="Close 3D viewer">×</button>
-    <p class="eyebrow">Interactive model</p>
-    <h2 id="modelTitle">3D model</h2>
-    <div class="stl-stage" id="stlStage"><p>Loading 3D model…</p></div>
-    <p class="model-note">The model rotates automatically. Use the project media arrows to return to images or video.</p>
-  </article>
-  </div>
+  <div class="project-modal" id="projectModal" aria-hidden="true"><button class="modal-overlay" aria-label="Close project"></button><article class="modal-card"><button class="modal-close" aria-label="Close project">×</button><div id="modalContent"></div></article></div>
+  <div class="model-modal" id="modelModal" aria-hidden="true"><button class="model-overlay" type="button" aria-label="Close 3D viewer"></button><article class="model-card" role="dialog" aria-modal="true" aria-labelledby="modelTitle"><button class="model-close" type="button" aria-label="Close 3D viewer">×</button><p class="eyebrow">Interactive model</p><h2 id="modelTitle">3D model</h2><div class="stl-stage" id="stlStage"><p>Loading 3D model…</p></div><p class="model-note">The model rotates automatically.</p></article></div>
   <script src="content.js"></script><script src="site.js"></script>
 </body>
 </html>
